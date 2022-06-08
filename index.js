@@ -48,9 +48,14 @@ app.get('/products/new', (req, res) => {
 })
 
 app.post('/products', wrapAsync(async (req, res, next) => {
-    const newProduct = new Product(req.body);
-    await newProduct.save();
-    res.redirect(`/products/${newProduct._id}`)
+    try {
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+        res.redirect(`/products/${newProduct._id}`)
+    } catch (e) {
+        next(e);
+    }
+    
 }))
 
 
