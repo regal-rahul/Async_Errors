@@ -59,7 +59,7 @@ app.get('/products/:id', wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id)
     if (!product) {
-        throw new AppError('Product Not Found', 404);
+        return next(new AppError('Product Not Found', 404));
     }
     res.render('products/show', { product })
 }))
@@ -68,7 +68,7 @@ app.get('/products/:id/edit', wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     if (!product) {
-        throw new AppError('Product Not Found', 404);
+        return next(new AppError('Unavailable Product, Editing is Invalid!', 404));
     }
     res.render('products/edit', { product, categories })
 }))
